@@ -1,5 +1,11 @@
 import React, { ReactElement } from "react";
-import { useFirestore, useFirestoreDocData, useUser, useAuth } from "reactfire";
+import {
+  useFirestore,
+  useFirestoreCollectionData,
+  useUser,
+  useAuth,
+} from "reactfire";
+import AlbumList from "../components/AlbumList";
 
 interface Props {}
 
@@ -8,14 +14,19 @@ const signOut = (auth: any) =>
 
 export default function Vote({}: Props): ReactElement {
   const auth = useAuth();
-  const { data: user }: any = useUser();
-  const listRef = useFirestore()
-    .collection("categories")
-    .doc("s17H0wHgnMpVgG9LeWAC");
-  const list: any = useFirestoreDocData(listRef);
+  // const { data: user }: any = useUser();
+
+  const albumsRef = useFirestore().collection("albums");
+  // const albumsQuery = albumsRef.orderBy('votes.length', 'desc');
+  const albumsQuery = albumsRef;
+
+  const albums: any = useFirestoreCollectionData(albumsQuery, {
+    idField: "id",
+  });
   return (
     <>
-      <h3>{list.title}</h3>
+      {albums && <AlbumList albums={albums}></AlbumList>}
+
       <button onClick={() => signOut(auth)}>Sign out</button>
     </>
   );
