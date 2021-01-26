@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "album-competition"
+  },
+  "targets": {
+    "album-competition": {
+      "hosting": {
+        "listening-circle": [
+          "listening-circle"
+        ]
+      }
+    }
   }
 }
