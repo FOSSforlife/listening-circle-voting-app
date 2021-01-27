@@ -26,6 +26,7 @@ interface Props {
   title: string;
   votes: Array<string>;
   handleToggleVote: (albumId: string, upvoted: boolean) => void;
+  users: Array<any>;
 }
 
 export default function AlbumCard({
@@ -38,6 +39,7 @@ export default function AlbumCard({
   title,
   votes,
   handleToggleVote,
+  users,
 }: Props): ReactElement {
   const classes = useStyles();
   const [upvoted, setUpvoted] = useState(false);
@@ -46,6 +48,8 @@ export default function AlbumCard({
   useEffect(() => {
     if (votes.indexOf(user.uid) !== -1) {
       setUpvoted(true);
+    } else {
+      setUpvoted(false);
     }
   }, [votes]);
 
@@ -54,8 +58,14 @@ export default function AlbumCard({
       {
         <Card className={classes.root}>
           <CardContent>
-            <Typography variant="h5" component="h2">
-              {artist} - {title}
+            <Typography variant="h4" component="h2">
+              {title}
+            </Typography>
+            <Typography variant="h5" component="h3">
+              {artist}
+            </Typography>
+            <Typography variant="subtitle1" component="h4">
+              Doom Metal, Psychedelic Rock
             </Typography>
             <IconButton onClick={() => handleToggleVote(id, upvoted)}>
               <ExpandLessIcon />

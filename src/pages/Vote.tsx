@@ -21,20 +21,30 @@ export default function Vote({}: Props): ReactElement {
   // const albumsQuery = albumsRef.orderBy("artist", "desc"); // TODO: filter to 2021 releases
   const albumsQuery = albumsRef;
 
-  const { data: albums }: any = useFirestoreCollectionData(albumsQuery, {
+  const { data: albums } = useFirestoreCollectionData(albumsQuery, {
     idField: 'id',
   });
 
+  const usersRef = useFirestore().collection('users');
+  const { data: users } = useFirestoreCollectionData(usersRef, {
+    idField: 'id',
+  });
+
+  const arrayRemove = firestore.FieldValue.arrayRemove;
+  const arrayUnion = firestore.FieldValue.arrayUnion;
+
+  // TODO: Cloud function to do this on register
+  function createUserDoc() {
+    const { uid, displayName, photoURL } = user;
+    usersRef.doc(user.uid).set({ uid, displayName, photoURL });
+  }
+
   function handleToggleVote(albumId: string, upvoted: boolean) {
+    createUserDoc();
     const albumRef = albumsRef.doc(albumId);
     albumRef.update({
-      votes: [user.uid],
+      votes: upvoted ? arrayRemove(user.uid) : arrayUnion(user.uid),
     });
-    // albumRef.update({
-    //   votes: upvoted
-    //     ? firestore.FieldValue.arrayRemove(user.uid)
-    //     : firestore.FieldValue.arrayUnion(user.uid),
-    // });
   }
 
   return (
@@ -43,6 +53,7 @@ export default function Vote({}: Props): ReactElement {
         <AlbumList
           albums={albums}
           handleToggleVote={handleToggleVote}
+          users={users}
         ></AlbumList>
       )}
 
