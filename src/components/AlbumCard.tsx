@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import CardMedia from '@material-ui/core/CardMedia';
 import Avatar from '@material-ui/core/Avatar';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { useUser } from 'reactfire';
 import {
   createStyles,
   makeStyles,
@@ -14,12 +15,12 @@ import {
   useMediaQuery,
   useTheme,
 } from '@material-ui/core';
-import { useUser } from 'reactfire';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: '0.6rem',
+      margin: '0.6rem',
     },
     upvoteButton: {
       color: (props: { upvoted: boolean }) =>
@@ -134,7 +135,8 @@ export default function AlbumCard({
               spacing={2}
               className={classes.votes}
             >
-              <Grid item>
+              {/* TODO: Uncomment this once we have votes */}
+              {/* <Grid item>
                 {users
                   .filter(filterToVotes)
                   .map(({ displayName, photoURL }) => {
@@ -147,7 +149,7 @@ export default function AlbumCard({
                       ></Avatar>
                     );
                   })}
-              </Grid>
+              </Grid> */}
               <Grid item>{votes.length}</Grid>
               <Grid item>
                 <IconButton

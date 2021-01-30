@@ -8,7 +8,7 @@ interface Props {
 }
 
 const byVotes = (album1: any, album2: any) => {
-  return album1.votes.length - album2.votes.length;
+  return album2.votes.length - album1.votes.length;
 };
 
 export default function AlbumList({
