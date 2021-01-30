@@ -7,6 +7,10 @@ interface Props {
   users: Array<any>;
 }
 
+const byVotes = (album1: any, album2: any) => {
+  return album1.votes.length - album2.votes.length;
+};
+
 export default function AlbumList({
   albums,
   handleToggleVote,
@@ -16,7 +20,7 @@ export default function AlbumList({
     <div>
       {/* Search */}
       {/* Sorting */}
-      {albums.map((album) => (
+      {albums.sort(byVotes).map((album) => (
         <AlbumCard
           key={album.id}
           handleToggleVote={handleToggleVote}

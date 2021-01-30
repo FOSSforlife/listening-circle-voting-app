@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import CardMedia from '@material-ui/core/CardMedia';
+import Avatar from '@material-ui/core/Avatar';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import {
   createStyles,
@@ -17,13 +18,25 @@ import { useUser } from 'reactfire';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {},
+    root: {
+      padding: '0.6rem',
+    },
     upvoteButton: {
       color: (props: { upvoted: boolean }) =>
         props.upvoted ? 'orange' : 'inherit',
     },
     albumArt: {
       height: '100%',
+    },
+    votes: {
+      float: 'right',
+      fontSize: '1.5rem',
+      width: 'max-content',
+      alignItems: 'center',
+    },
+    avatar: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
     },
   })
 );
@@ -73,13 +86,21 @@ export default function AlbumCard({
     }
   }, [votes]);
 
+  const filterToVotes = (user: any) => {
+    return votes.findIndex((vote) => vote === user.uid) !== -1;
+  };
+
   return (
     <div>
       {
         <Card className={classes.root}>
           <CardContent>
-            <div></div>
-            <Grid container>
+            <div style={{ float: 'left' }}>
+              <Typography variant="h5" component="h2">
+                {artist} - {title}
+              </Typography>
+            </div>
+            {/* <Grid container>
               <Grid item xs={6} sm={5}>
                 <Typography variant="h4" component="h2">
                   {title}
@@ -106,16 +127,38 @@ export default function AlbumCard({
                   title={`Album art for ${title}`}
                 ></CardMedia>
               </Grid>
+            </Grid> */}
+            <Grid
+              container
+              direction="row"
+              spacing={2}
+              className={classes.votes}
+            >
+              <Grid item>
+                {users
+                  .filter(filterToVotes)
+                  .map(({ displayName, photoURL }) => {
+                    // return displayName;
+                    return (
+                      <Avatar
+                        className={classes.avatar}
+                        alt={displayName}
+                        src={photoURL}
+                      ></Avatar>
+                    );
+                  })}
+              </Grid>
+              <Grid item>{votes.length}</Grid>
+              <Grid item>
+                <IconButton
+                  className={classes.upvoteButton}
+                  disableFocusRipple
+                  onClick={() => handleToggleVote(id, upvoted)}
+                >
+                  <ExpandLessIcon />
+                </IconButton>
+              </Grid>
             </Grid>
-            <div>
-              <IconButton
-                className={classes.upvoteButton}
-                disableFocusRipple
-                onClick={() => handleToggleVote(id, upvoted)}
-              >
-                <ExpandLessIcon />
-              </IconButton>
-            </div>
           </CardContent>
         </Card>
       }

@@ -1,0 +1,7 @@
+- [ ] add albums
+- [ ] view albums without logging in
+- [ ] title/logo at top of page
+- [ ] sign out at top of page
+- [ ] document favicon/title
+- [ ] sort by votes
+- [ ] Take hyphen out of URL
