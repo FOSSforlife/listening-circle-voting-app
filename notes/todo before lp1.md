@@ -1,8 +1,8 @@
 - [x] add albums
-- [ ] view albums without logging in
+- [x] view albums without logging in
 - [ ] title/logo at top of page
-- [ ] sign out at top of page
-- [ ] document favicon/title
+- [x] sign out at top of page
+- [x] document favicon/title
 - [x] sort by votes
 - [ ] Take hyphen out of URL
 - [ ] sort animations

@@ -13,7 +13,6 @@ import {
   preloadUser,
 } from 'reactfire';
 import Vote from './pages/Vote';
-import Login from './pages/Login';
 
 import 'firebase/auth';
 
@@ -21,9 +20,6 @@ const preloadSDKs = (firebaseApp: firebase.app.App) => {
   return Promise.all([
     preloadFirestore({
       firebaseApp,
-      setup(firestore) {
-        return firestore().enablePersistence();
-      },
     }),
     preloadAuth({ firebaseApp }),
   ]);

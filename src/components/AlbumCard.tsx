@@ -21,10 +21,11 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       padding: '0.6rem',
       margin: '0.6rem',
+      backgroundColor: '#cdf'
     },
     upvoteButton: {
       color: (props: { upvoted: boolean }) =>
-        props.upvoted ? 'orange' : 'inherit',
+        props.upvoted ? '#0b4' : 'inherit',
     },
     albumArt: {
       height: '100%',

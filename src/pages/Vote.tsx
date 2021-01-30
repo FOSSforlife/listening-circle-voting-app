@@ -14,6 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import AddIcon from '@material-ui/icons/Add';
 import AddAlbum from '../components/AddAlbum';
+import Login from '../components/Login';
 
 const capitalize = (input: string) => {
   const words = input.split(' ');
@@ -27,13 +28,18 @@ const capitalize = (input: string) => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     fab: {
-      position: 'absolute',
+      position: 'fixed',
       bottom: theme.spacing(5),
       right: theme.spacing(5),
     },
     errorText: {
       color: 'red',
     },
+    signOutLink: {
+      textDecoration: 'underline',
+      color: 'blue',
+      cursor: 'pointer'
+    }
   })
 );
 
@@ -113,11 +119,12 @@ export default function Vote({}: Props): ReactElement {
         autoHideDuration={6000}
         anchorOrigin={{
           horizontal: 'center',
-          vertical: 'top',
+          vertical: 'bottom',
         }}
       >
         <MuiAlert severity="error">{alertText}</MuiAlert>
       </Snackbar>
+      {user ? <div style={{textAlign: 'center'}}>Logged in as {user.displayName}.  <a className={classes.signOutLink} onClick={() => signOut(auth)}>Sign out</a></div> : <Login />}
       {albums && (
         <AlbumList
           albums={albums}
@@ -146,7 +153,7 @@ export default function Vote({}: Props): ReactElement {
       >
         <AddIcon />
       </Fab>
-      <button onClick={() => signOut(auth)}>Sign out</button>
+      <div style={{textAlign: 'center'}}>View source code: <a href="https://github.com/FOSSforlife/listening-circle-voting-app" target="blank">GitHub</a></div>
     </>
   );
 }
