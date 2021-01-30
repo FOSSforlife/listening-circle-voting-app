@@ -45,10 +45,8 @@ export default function App() {
           fallback={'Loading albums...'}
           traceId={'load-album-status'}
         >
-          <AuthCheck fallback={<Login></Login>}>
-            <Vote></Vote>
-            {/* TODO: View a list of your votes */}
-          </AuthCheck>
+          <Vote></Vote>
+          {/* TODO: View a list of your votes */}
           {/* <VotesList></VotesList> */}
         </SuspenseWithPerf>
       </Box>

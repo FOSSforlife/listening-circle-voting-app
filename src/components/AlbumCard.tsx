@@ -80,7 +80,7 @@ export default function AlbumCard({
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
   useEffect(() => {
-    if (votes.indexOf(user.uid) !== -1) {
+    if (user && user.uid && votes.indexOf(user.uid) !== -1) {
       setUpvoted(true);
     } else {
       setUpvoted(false);
@@ -93,15 +93,14 @@ export default function AlbumCard({
 
   return (
     <div>
-      {
-        <Card className={classes.root}>
-          <CardContent>
-            <div style={{ float: 'left' }}>
-              <Typography variant="h5" component="h2">
-                {artist} - {title}
-              </Typography>
-            </div>
-            {/* <Grid container>
+      <Card className={classes.root}>
+        <CardContent>
+          <div style={{ float: 'left' }}>
+            <Typography variant="h5" component="h2">
+              {artist} - {title}
+            </Typography>
+          </div>
+          {/* <Grid container>
               <Grid item xs={6} sm={5}>
                 <Typography variant="h4" component="h2">
                   {title}
@@ -129,14 +128,9 @@ export default function AlbumCard({
                 ></CardMedia>
               </Grid>
             </Grid> */}
-            <Grid
-              container
-              direction="row"
-              spacing={2}
-              className={classes.votes}
-            >
-              {/* TODO: Uncomment this once we have votes */}
-              {/* <Grid item>
+          <Grid container direction="row" spacing={2} className={classes.votes}>
+            {/* TODO: Uncomment this once we have votes */}
+            {/* <Grid item>
                 {users
                   .filter(filterToVotes)
                   .map(({ displayName, photoURL }) => {
@@ -150,20 +144,19 @@ export default function AlbumCard({
                     );
                   })}
               </Grid> */}
-              <Grid item>{votes.length}</Grid>
-              <Grid item>
-                <IconButton
-                  className={classes.upvoteButton}
-                  disableFocusRipple
-                  onClick={() => handleToggleVote(id, upvoted)}
-                >
-                  <ExpandLessIcon />
-                </IconButton>
-              </Grid>
+            <Grid item>{votes.length}</Grid>
+            <Grid item>
+              <IconButton
+                className={classes.upvoteButton}
+                disableFocusRipple
+                onClick={() => handleToggleVote(id, upvoted)}
+              >
+                <ExpandLessIcon />
+              </IconButton>
             </Grid>
-          </CardContent>
-        </Card>
-      }
+          </Grid>
+        </CardContent>
+      </Card>
     </div>
   );
 }

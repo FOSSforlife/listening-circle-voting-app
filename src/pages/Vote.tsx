@@ -7,9 +7,11 @@ import {
 } from 'reactfire';
 import { paramCase } from 'change-case';
 import AlbumList from '../components/AlbumList';
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import Popover from '@material-ui/core/Popover';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import AddIcon from '@material-ui/icons/Add';
 import AddAlbum from '../components/AddAlbum';
 
@@ -29,6 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: theme.spacing(5),
       right: theme.spacing(5),
     },
+    errorText: {
+      color: 'red',
+    },
   })
 );
 
@@ -42,6 +47,11 @@ export default function Vote({}: Props): ReactElement {
   const firestore = useFirestore;
   const auth = useAuth();
   const { data: user } = useUser();
+  const [alertText, setAlertText] = useState('');
+  const [alertOpen, setAlertOpen] = useState(false);
+
+  const [popoverAnchorEl, setPopoverAnchorEl] = React.useState(null);
+  const addAlbumPopoverOpen = Boolean(popoverAnchorEl);
 
   const albumsRef = useFirestore().collection('albums');
   // const albumsQuery = albumsRef.orderBy("artist", "desc"); // TODO: filter to 2021 releases
@@ -66,15 +76,17 @@ export default function Vote({}: Props): ReactElement {
   }
 
   function handleToggleVote(albumId: string, upvoted: boolean) {
+    if (!user) {
+      setAlertOpen(true);
+      setAlertText('You are not logged in.');
+      return;
+    }
     createUserDoc();
     const albumRef = albumsRef.doc(albumId);
     albumRef.update({
       votes: upvoted ? arrayRemove(user.uid) : arrayUnion(user.uid),
     });
   }
-
-  const [popoverAnchorEl, setPopoverAnchorEl] = React.useState(null);
-  const addAlbumPopoverOpen = Boolean(popoverAnchorEl);
 
   function handleAddAlbumIconClick(event: any) {
     setPopoverAnchorEl(event.currentTarget);
@@ -93,6 +105,19 @@ export default function Vote({}: Props): ReactElement {
 
   return (
     <>
+      <Snackbar
+        open={alertOpen}
+        onClose={() => {
+          setAlertOpen(false);
+        }}
+        autoHideDuration={6000}
+        anchorOrigin={{
+          horizontal: 'center',
+          vertical: 'top',
+        }}
+      >
+        <MuiAlert severity="error">{alertText}</MuiAlert>
+      </Snackbar>
       {albums && (
         <AlbumList
           albums={albums}
