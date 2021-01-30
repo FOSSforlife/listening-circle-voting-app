@@ -1,6 +1,7 @@
 - [x] add albums
 - [x] view albums without logging in
 - [ ] title/logo at top of page
+- [ ] vertically align vote numbers
 - [x] sign out at top of page
 - [x] document favicon/title
 - [x] sort by votes

@@ -38,8 +38,11 @@ const useStyles = makeStyles((theme: Theme) =>
     signOutLink: {
       textDecoration: 'underline',
       color: 'blue',
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
+    centerText: {
+      textAlign: 'center',
+    },
   })
 );
 
@@ -104,9 +107,12 @@ export default function Vote({}: Props): ReactElement {
 
   function handleAddAlbumSubmit(artist: string, title: string) {
     const albumId = paramCase(`${artist} $${title}`);
-    albumsRef
-      .doc(albumId)
-      .set({ artist: capitalize(artist), title: capitalize(title), votes: [] });
+    albumsRef.doc(albumId).set({
+      artist: capitalize(artist),
+      title: capitalize(title),
+      votes: [],
+      addedBy: user.uid,
+    });
   }
 
   return (
@@ -124,7 +130,16 @@ export default function Vote({}: Props): ReactElement {
       >
         <MuiAlert severity="error">{alertText}</MuiAlert>
       </Snackbar>
-      {user ? <div style={{textAlign: 'center'}}>Logged in as {user.displayName}.  <a className={classes.signOutLink} onClick={() => signOut(auth)}>Sign out</a></div> : <Login />}
+      {user ? (
+        <div className={classes.centerText}>
+          Logged in as {user.displayName}.{' '}
+          <a className={classes.signOutLink} onClick={() => signOut(auth)}>
+            Sign out
+          </a>
+        </div>
+      ) : (
+        <Login />
+      )}
       {albums && (
         <AlbumList
           albums={albums}
@@ -153,7 +168,15 @@ export default function Vote({}: Props): ReactElement {
       >
         <AddIcon />
       </Fab>
-      <div style={{textAlign: 'center'}}>View source code: <a href="https://github.com/FOSSforlife/listening-circle-voting-app" target="blank">GitHub</a></div>
+      <div className={classes.centerText}>
+        View source code:{' '}
+        <a
+          href="https://github.com/FOSSforlife/listening-circle-voting-app"
+          target="blank"
+        >
+          GitHub
+        </a>
+      </div>
     </>
   );
 }

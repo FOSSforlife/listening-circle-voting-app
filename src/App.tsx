@@ -1,9 +1,6 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
-import ProTip from './ProTip';
 import {
   SuspenseWithPerf,
   AuthCheck,
@@ -38,7 +35,9 @@ export default function App() {
     <Container maxWidth="md">
       <Box my={4}>
         <SuspenseWithPerf
-          fallback={'Loading albums...'}
+          fallback={
+            <div style={{ textAlign: 'center' }}>Loading albums...</div>
+          }
           traceId={'load-album-status'}
         >
           <Vote></Vote>
